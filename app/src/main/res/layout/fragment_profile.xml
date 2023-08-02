@@ -1,5 +1,12 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".EventListFragment"
+    android:orientation="vertical">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -24,32 +31,45 @@
         android:textColor="@color/LightGreen"
         android:text="First name" />
 
-    <LinearLayout
+<!--    <LinearLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/heightTextView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textColor="@color/LightGreen"-->
+<!--            android:text="Height: Unknown" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/weightTextView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textColor="@color/LightGreen"-->
+<!--            android:text="Height: Unknown" />-->
+
+<!--    </LinearLayout>-->
+    <TextView
+        android:id="@+id/emailTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/heightTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/LightGreen"
-            android:text="180cm" />
-
-        <TextView
-            android:id="@+id/weightTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textSize="18sp"
-            android:textColor="@color/LightGreen"
-            android:text="50kg" />
-
-    </LinearLayout>
-
+        android:textSize="18sp"
+        android:textColor="@color/LightGreen"
+        android:text="Email: Your email" />
+    <TextView
+        android:id="@+id/dobTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/LightGreen"
+        android:text="Date of Birth: unknown" />
     <Button
-        android:id="@+id/editButton"
+        android:id="@+id/edit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -57,3 +77,4 @@
         android:textSize="16sp" />
 
 </LinearLayout>
+</FrameLayout>

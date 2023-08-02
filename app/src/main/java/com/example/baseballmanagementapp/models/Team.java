@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Team {
     String teamId, name, city, province, country, stadium, foundedYear;
-    int logo;
+    String logo;
     List<Manager> managerList = new ArrayList<>();
     public Team() {
 
@@ -17,7 +17,7 @@ public class Team {
         this.teamId = teamId;
     }
 
-    public Team(String teamId, String name, String city, String province, String country, String stadium, String foundedYear, int logo) {
+    public Team(String teamId, String name, String city, String province, String country, String stadium, String foundedYear, String logo) {
         this.teamId = teamId;
         this.name = name;
         this.city = city;
@@ -101,11 +101,11 @@ public class Team {
         this.foundedYear = foundedYear;
     }
 
-    public int getLogo() {
+    public String getLogo() {
         return logo;
     }
 
-    public void setLogo(int logo) {
+    public void setLogo(String logo) {
         this.logo = logo;
     }
 

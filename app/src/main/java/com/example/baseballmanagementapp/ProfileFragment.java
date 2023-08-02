@@ -1,10 +1,13 @@
 package com.example.baseballmanagementapp;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -70,15 +73,28 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         FragmentProfileBinding binding = FragmentProfileBinding.inflate(inflater, container, false);
+        View view2 = binding.getRoot();
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String uid = auth.getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("User").child(uid);
+        binding.editButton.setOnClickListener(view -> {
+            Log.d("app", "Clicked");
+            Intent intent = new Intent(getActivity(), EditUserActivity.class);
+            startActivity(intent);
+        });
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 assert user != null;
-                binding.nameTextView.setText(user.getFirstname());
+                TextView nameTextView = (TextView) getActivity().findViewById(R.id.nameTextView);
+                TextView mailTextView = (TextView) getActivity().findViewById(R.id.emailTextView);
+                TextView dobTextView = (TextView) getActivity().findViewById(R.id.dobTextView);
+                nameTextView.setText(user.getFirstname() + " " + user.getLastname());
+                mailTextView.setText("Email: " + user.getMail());
+                dobTextView.setText("Date of Birth:" + user.getDob());
+
                 Log.d("app", user.getFirstname());
             }
 
@@ -87,6 +103,8 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+
+
+        return view2;
     }
 }

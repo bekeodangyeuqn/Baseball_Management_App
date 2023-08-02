@@ -111,15 +111,12 @@ public class MemberListFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            // This method runs in a background thread
-            // Fetch data from Firebase database and return it
-
-            // For example:
 
             userTeamRef.orderByChild("teamId").equalTo(teamId).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     long countItem = snapshot.getChildrenCount();
+                    Log.d("app", "Count item: " + countItem);
                     final long[] i = {0};
                     for (DataSnapshot userTeamSnapshot : snapshot.getChildren()) {
                         UserTeam userTeam = userTeamSnapshot.getValue(UserTeam.class);
@@ -137,10 +134,7 @@ public class MemberListFragment extends Fragment {
                                 child.add(new Cell(user[0].getDob()));
                                 child.add(new Cell(userTeam.getRole()));
                                 child.add(new Cell(userTeam.getStatus()));
-//                           for (Cell item : child) {
-//                               if (item.getData() != null)
-//                                Log.d("app", item.getData().toString() + " ");
-//                           }
+
                                 mCellList.add(child);
                                 if (i[0] == countItem) {
                                     if (mCellList != null) {

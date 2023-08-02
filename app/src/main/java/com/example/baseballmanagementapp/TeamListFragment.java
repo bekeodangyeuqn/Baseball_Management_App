@@ -98,47 +98,7 @@ public class TeamListFragment extends Fragment {
                     return false;
             }
         });
-//        ref.addValueEventListener(new ValueEventListener() {
-//            @SuppressLint("NonConstantResourceId")
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                //list.clear();
-//                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-//                    Log.d("app", dataSnapshot.getValue(Team.class).toString());
-//                    Team team = dataSnapshot.getValue(Team.class);
-//                    Log.d("app", team.getName());
-//                    list.add(team);
-//                }
-//                TeamAdapter teamAdapter = new TeamAdapter(getActivity(), list);
-//                teamAdapter.setOnClickListener((view, position, model) -> {
-//                    Intent intent;
-//                    switch (view.getId()) {
-//                        case R.id.add_member_button:
-//                            intent = new Intent(getActivity(), AddMemberActivity.class);
-//                            intent.putExtra("teamId", list.get(position).getTeamId());
-//                            startActivity(intent);
-//                            Log.d("app", list.get(position).getTeamId());
-//                            break;
-//                        case R.id.add_event_button:
-//                            intent = new Intent(getActivity(), CreateEventActivity.class);
-//                            intent.putExtra("teamId", list.get(position).getTeamId());
-//                            startActivity(intent);
-//                            break;
-//                    }
-////                    Intent intent = new Intent(getActivity(), CreateEventActivity.class);
-////                    intent.putExtra("teamId", list.get(position).getTeamId());
-////                    startActivity(intent);
-//                });
-//                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-//                binding.listView.setLayoutManager(linearLayoutManager);
-//                binding.listView.setAdapter(teamAdapter);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+
         userTeamRef.orderByChild("userId").equalTo(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -146,6 +106,7 @@ public class TeamListFragment extends Fragment {
                     String teamId = userTeamSnapshot.child("teamId").getValue(String.class);
                     Log.d("app", teamId);
                     UserTeam userTeam = userTeamSnapshot.getValue(UserTeam.class);
+                    userTeam.setId(userTeamSnapshot.getKey());
                     Log.d("app", userTeam.getTeamId());
                     list.add(userTeam);
                 }
@@ -167,6 +128,8 @@ public class TeamListFragment extends Fragment {
                         case R.id.show_team_detail:
                             intent = new Intent(getActivity(), TeamDetailActivity.class);
                             intent.putExtra("teamId", list.get(position).getTeamId());
+                            intent.putExtra("userTeamId", list.get(position).getId());
+                            Log.d("app", "UserTeamId: " + list.get(position).getId());
                             startActivity(intent);
                     }
 //                    Intent intent = new Intent(getActivity(), CreateEventActivity.class);

@@ -22,6 +22,12 @@ public class ChooseParticipateActivity extends AppCompatActivity {
             Intent intent = new Intent(ChooseParticipateActivity.this, CreateTeamActivity.class);
             startActivity(intent);
         });
+        binding.joinTeamBtn.setClickable(true);
+        binding.joinTeamBtn.setFocusable(true);
+        binding.joinTeamBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(ChooseParticipateActivity.this, JoinTeamActivity.class);
+            startActivity(intent);
+        });
         binding.logoutBtn.setOnClickListener(view -> {
             auth.signOut();
             Intent intent = new Intent(ChooseParticipateActivity.this, SignupActivity.class);

@@ -1,6 +1,5 @@
 package com.example.baseballmanagementapp.models;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,7 @@ public class Pitcher extends Player{
     String era, inningPitched;
     List<String> pitchType = new ArrayList<String>();
 
-    public Pitcher(String firstname, String lastname, String profilepic, String username, String mail, String password, String userId, LocalDate dob, String firstPos, String secondPos, int height, int weight, Team team, int gameStart, int win, int lose, int pitchSo, int bb, int hbp, int save, int hold, String era, String inningPitched, List<String> pitchType) {
+    public Pitcher(String firstname, String lastname, String profilepic, String username, String mail, String password, String userId, String dob, String firstPos, String secondPos, int height, int weight, Team team, int gameStart, int win, int lose, int pitchSo, int bb, int hbp, int save, int hold, String era, String inningPitched, List<String> pitchType) {
         super(firstname, lastname, profilepic, username, mail, password, userId, dob, firstPos, secondPos, height, weight, team);
         this.gameStart = gameStart;
         this.win = win;
@@ -54,7 +53,7 @@ public class Pitcher extends Player{
         this.pitchType = pitchType;
     }
 
-    public Pitcher(String firstname, String lastname, String profilepic, String username, String mail, String password, String userId, LocalDate dob, String avg, String firstPos, String secondPos, int hr, int rbi, int sb, int so, int height, int weight, Team team, int gameStart, int win, int lose, int pitchSo, int bb, int hbp, int save, int hold, String era, String inningPitched, List<String> pitchType) {
+    public Pitcher(String firstname, String lastname, String profilepic, String username, String mail, String password, String userId, String dob, String avg, String firstPos, String secondPos, int hr, int rbi, int sb, int so, int height, int weight, Team team, int gameStart, int win, int lose, int pitchSo, int bb, int hbp, int save, int hold, String era, String inningPitched, List<String> pitchType) {
         super(firstname, lastname, profilepic, username, mail, password, userId, dob, avg, firstPos, secondPos, hr, rbi, sb, so, height, weight, team);
         this.gameStart = gameStart;
         this.win = win;

@@ -62,11 +62,12 @@ public class TeamMembersTableAdapter extends AbstractTableAdapter<ColumnHeader, 
 //        assert cellItemModel != null;
 ////        assert cellItemModel.getData() != null;
         Cell cell = (Cell) cellItemModel;
-        if (cellItemModel.getData() != null)
+        if (cellItemModel.getData() != null) {
             viewHolder.cell_textview.setText(cell.getData().toString());
-        else
+        }
+        else {
             viewHolder.cell_textview.setText("Unknown");
-        //Log.d("app", cell.getData().toString());
+        }
         viewHolder.cell_container.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
         viewHolder.cell_textview.requestLayout();
     }

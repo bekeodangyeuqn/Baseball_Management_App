@@ -1,13 +1,11 @@
 package com.example.baseballmanagementapp.models;
 
-import java.time.LocalDate;
-
 public class Player extends User{
     String avg, firstPos, secondPos;
     int hr, rbi, sb, so, height, weight;
     Team playerTeam;
 
-    public Player(String firstname, String lastname, String profilepic, String username, String mail, String password, String userId, LocalDate dob, String firstPos, String secondPos, int height, int weight, Team team) {
+    public Player(String firstname, String lastname, String profilepic, String username, String mail, String password, String userId,String dob, String firstPos, String secondPos, int height, int weight, Team team) {
         super(firstname, lastname, profilepic, username, mail, password, userId, dob);
         this.firstPos = firstPos;
         this.secondPos = secondPos;
@@ -33,7 +31,7 @@ public class Player extends User{
         this.playerTeam = team;
     }
 
-    public Player(String firstname, String lastname, String profilepic, String username, String mail, String password, String userId, LocalDate dob, String avg, String firstPos, String secondPos, int hr, int rbi, int sb, int so, int height, int weight, Team team) {
+    public Player(String firstname, String lastname, String profilepic, String username, String mail, String password, String userId, String dob, String avg, String firstPos, String secondPos, int hr, int rbi, int sb, int so, int height, int weight, Team team) {
         super(firstname, lastname, profilepic, username, mail, password, userId, dob);
         this.avg = avg;
         this.firstPos = firstPos;

@@ -1,16 +1,15 @@
 package com.example.baseballmanagementapp.models;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class User {
     String firstname, lastname, profilepic, username, mail, password, userId;
     List<Team> teams = new ArrayList<>();;
-    LocalDate dob;
+    String dob;
 
     public User(String firstname, String lastname, String profilepic, String username,
-                String mail, String password, String userId, LocalDate dob) {
+                String mail, String password, String userId, String dob) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.profilepic = profilepic;
@@ -88,11 +87,11 @@ public class User {
         this.password = password;
     }
 
-    public LocalDate getDob() {
+    public String getDob() {
         return dob;
     }
 
-    public void setDob(LocalDate dob) {
+    public void setDob(String dob) {
         this.dob = dob;
     }
 

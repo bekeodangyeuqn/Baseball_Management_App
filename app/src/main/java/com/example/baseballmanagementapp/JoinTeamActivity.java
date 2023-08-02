@@ -1,6 +1,5 @@
 package com.example.baseballmanagementapp;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.baseballmanagementapp.databinding.ActivityAddMemberBinding;
+import com.example.baseballmanagementapp.databinding.ActivityJoinTeamBinding;
 import com.example.baseballmanagementapp.models.Manager;
 import com.example.baseballmanagementapp.models.Team;
 import com.example.baseballmanagementapp.models.User;
@@ -25,27 +24,25 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class AddMemberActivity extends AppCompatActivity {
-    ActivityAddMemberBinding binding;
+public class JoinTeamActivity extends AppCompatActivity {
+    ActivityJoinTeamBinding binding;
     ProgressDialog pd;
     int checkRole;
-    String teamId;
-
-    //
-    @SuppressLint("NonConstantResourceId")
+    FirebaseAuth auth = FirebaseAuth.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        binding = ActivityAddMemberBinding.inflate(getLayoutInflater());
+        binding = ActivityJoinTeamBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
-        teamId = getIntent().getStringExtra("teamId");
         RadioGroup radioGroup = binding.radioGroup;
+        String userId =  auth.getUid();
+
         radioGroup.setOnCheckedChangeListener((radioGroup1, checkedId) -> {
             switch (checkedId) {
-                case R.id.select_manager:
+                case R.id.select_manager_team:
                     checkRole = 1;
                     break;
-                case R.id.select_player:
+                case R.id.select_player_team:
                     checkRole = 2;
                     break;
             }
@@ -53,11 +50,15 @@ public class AddMemberActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.
                 getInstance("https://baseball-management-app-default-rtdb.asia-southeast1.firebasedatabase.app");
         DatabaseReference ref = database.getReference();
-        final Team[] team = new Team[1];
-        ref.child("Team").child(teamId).addListenerForSingleValueEvent(new ValueEventListener() {
+
+        pd = new ProgressDialog(JoinTeamActivity.this);
+        pd.setTitle("Joining team");
+        pd.setMessage("Joining team for you");
+        final User[] user = new User[1];
+        ref.child("User").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                team[0] = snapshot.getValue(Team.class);
+                user[0] = snapshot.getValue(User.class);
             }
 
             @Override
@@ -65,33 +66,26 @@ public class AddMemberActivity extends AppCompatActivity {
 
             }
         });
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        pd = new ProgressDialog(AddMemberActivity.this);
-        pd.setTitle("Adding member");
-        pd.setMessage("Adding member to your team");
         binding.createSubmitBtn.setOnClickListener(view -> {
             pd.show();
-
-            final User[] user = new User[1];
-            ref.child("User").addListenerForSingleValueEvent(new ValueEventListener() {
+            final Team[] team = new Team[1];
+            ref.child("Team").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    ArrayList<User> users = new ArrayList<>();
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    ArrayList<Team> teams =  new ArrayList<>();
                     if (snapshot.exists()) {
                         for (DataSnapshot findSnapshot : snapshot.getChildren()) {
-                            User user = findSnapshot.getValue(User.class);
-                            users.add(user);
+                            Team team = findSnapshot.getValue(Team.class);
+                            teams.add(team);
                         }
                     }
-                    Log.d("app", users.get(1).getUsername());
-                    for (User findUser : users) {
-                        if (findUser.getUsername().equals(binding.etMemberId.getText().toString())) {
-                            Log.d("app", "Founded user");
-                            user[0] = findUser;
-                            Log.d("app",  user[0].getUserId());
+                    for (Team findTeam : teams) {
+                        if (findTeam.getTeamId().equals(binding.etTeamId.getText().toString())) {
+                            Log.d("app", "Founded team");
+                            team[0] = findTeam;
                             if (checkRole == 1) {
                                 //Manager manager = (Manager) user[0];
-                                ref.child("Team").child(teamId).child("Managers").addListenerForSingleValueEvent(new ValueEventListener() {
+                                ref.child("Team").child(binding.etTeamId.getText().toString()).child("Managers").addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot snapshot) {
                                         boolean valueExists = false;
@@ -108,24 +102,24 @@ public class AddMemberActivity extends AppCompatActivity {
                                             // The value already exists in the database, do not add it
                                             // Handle the case when the value already exists
                                             pd.dismiss();
-                                            Toast.makeText(AddMemberActivity.this, "This manager with this id have already added", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(JoinTeamActivity.this, "This manager with this id have already added", Toast.LENGTH_SHORT).show();
                                         } else {
                                             // The value does not exist, add it to the database
                                             // Handle the case when the value does not exist
                                             UserTeam userTeam = new UserTeam();
                                             //userTeam.setId();
-                                            userTeam.setTeamId(teamId);
+                                            userTeam.setTeamId(binding.etTeamId.getText().toString());
                                             userTeam.setUserId(user[0].getUserId());
                                             userTeam.setRole("manager");
                                             userTeam.setStatus("active");
                                             DatabaseReference userTeamRef= ref.child("UserTeam").push();
                                             userTeamRef.setValue(userTeam);
-                                            ref.child("Team").child(teamId).child("Managers").child(user[0].getUserId()).setValue(true);
-                                            ref.child("User").child(user[0].getUserId()).child("Teams").child(teamId).setValue(true);
+                                            ref.child("Team").child(binding.etTeamId.getText().toString()).child("Managers").child(user[0].getUserId()).setValue(true);
+                                            ref.child("User").child(user[0].getUserId()).child("Teams").child(binding.etTeamId.getText().toString()).setValue(true);
                                             pd.dismiss();
-                                            Intent intent = new Intent(AddMemberActivity.this, MainActivity.class);
+                                            Intent intent = new Intent(JoinTeamActivity.this, MainActivity.class);
                                             startActivity(intent);
-                                            Toast.makeText(AddMemberActivity.this, "Add manager successfully", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(JoinTeamActivity.this, "Add manager successfully", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 
@@ -137,7 +131,7 @@ public class AddMemberActivity extends AppCompatActivity {
                             }
                             else if (checkRole ==  2) {
 
-                                ref.child("Team").child(teamId).child("Players").addListenerForSingleValueEvent(new ValueEventListener() {
+                                ref.child("Team").child(binding.etTeamId.getText().toString()).child("Players").addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot snapshot) {
                                         boolean valueExists = false;
@@ -154,38 +148,38 @@ public class AddMemberActivity extends AppCompatActivity {
                                                 // The value already exists in the database, do not add it
                                                 // Handle the case when the value already exists
                                                 pd.dismiss();
-                                                Toast.makeText(AddMemberActivity.this, "This player with this id have already added", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(JoinTeamActivity.this, "This player with this id have already added", Toast.LENGTH_SHORT).show();
                                             } else {
                                                 // The value does not exist, add it to the database
                                                 // Handle the case when the value does not exist
                                                 UserTeam userTeam = new UserTeam();
-                                                userTeam.setTeamId(teamId);
+                                                userTeam.setTeamId(binding.etTeamId.getText().toString());
                                                 userTeam.setUserId(user[0].getUserId());
                                                 userTeam.setRole("player");
                                                 userTeam.setStatus("active");
                                                 DatabaseReference userTeamRef= ref.child("UserTeam").push();
                                                 userTeamRef.setValue(userTeam);
-                                                ref.child("Team").child(teamId).child("Players").child(user[0].getUserId()).setValue(true);
-                                                ref.child("User").child(user[0].getUserId()).child("Teams").child(teamId).setValue(true);
+                                                ref.child("Team").child(binding.etTeamId.getText().toString()).child("Players").child(user[0].getUserId()).setValue(true);
+                                                ref.child("User").child(user[0].getUserId()).child("Teams").child(binding.etTeamId.getText().toString()).setValue(true);
                                                 pd.dismiss();
-                                                Intent intent = new Intent(AddMemberActivity.this, MainActivity.class);
+                                                Intent intent = new Intent(JoinTeamActivity.this, MainActivity.class);
                                                 startActivity(intent);
-                                                Toast.makeText(AddMemberActivity.this, "Add player successfully", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(JoinTeamActivity.this, "Add player successfully", Toast.LENGTH_SHORT).show();
                                             }
                                         } else {
                                             UserTeam userTeam = new UserTeam();
-                                            userTeam.setTeamId(teamId);
+                                            userTeam.setTeamId(binding.etTeamId.getText().toString());
                                             userTeam.setUserId(user[0].getUserId());
                                             userTeam.setRole("player");
                                             userTeam.setStatus("active");
                                             DatabaseReference userTeamRef= ref.child("UserTeam").push();
                                             userTeamRef.setValue(userTeam);
-                                            ref.child("Team").child(teamId).child("Players").child(user[0].getUserId()).setValue(true);
-                                            ref.child("User").child(user[0].getUserId()).child("Teams").child(teamId).setValue(true);
+                                            ref.child("Team").child(binding.etTeamId.getText().toString()).child("Players").child(user[0].getUserId()).setValue(true);
+                                            ref.child("User").child(user[0].getUserId()).child("Teams").child(binding.etTeamId.getText().toString()).setValue(true);
                                             pd.dismiss();
-                                            Intent intent = new Intent(AddMemberActivity.this, MainActivity.class);
+                                            Intent intent = new Intent(JoinTeamActivity.this, MainActivity.class);
                                             startActivity(intent);
-                                            Toast.makeText(AddMemberActivity.this, "Add player successfully", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(JoinTeamActivity.this, "Add player successfully", Toast.LENGTH_SHORT).show();
                                         }
 
                                     }
@@ -199,7 +193,7 @@ public class AddMemberActivity extends AppCompatActivity {
                             break;
                         }
                         pd.dismiss();
-                        Toast.makeText(AddMemberActivity.this, "Not found user with this username", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(JoinTeamActivity.this, "Not found team with this id", Toast.LENGTH_SHORT).show();
                     }
                 }
 

@@ -44,7 +44,7 @@ public class CreateTeamActivity extends AppCompatActivity {
             pd.show();
             UUID uuid = UUID.randomUUID();
             String teamId =String.valueOf(uuid);
-            Team team = new Team(binding.etTeamName.getText().toString());
+            Team team = new Team(binding.etTeamName.getText().toString(), teamId);
             DatabaseReference ref = database.getReference();
             String uid = Objects.requireNonNull(auth.getCurrentUser()).getUid();
             Log.d("app", "Value is: " + uid);

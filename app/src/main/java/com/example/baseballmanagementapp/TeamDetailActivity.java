@@ -26,6 +26,7 @@ public class TeamDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         String teamId = getIntent().getStringExtra("teamId");
+        String userTeamId = getIntent().getStringExtra("userTeamId");
         binding = ActivityTeamDetailBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
@@ -77,7 +78,7 @@ public class TeamDetailActivity extends AppCompatActivity {
                         fragment = new TeamEventsFragment(teamId);
                         break;
                     case 2:
-                        fragment = new TeamInfoFragment();
+                        fragment = new TeamInfoFragment(teamId, userTeamId);
                         break;
                 }
                 FragmentManager fm = getSupportFragmentManager();
