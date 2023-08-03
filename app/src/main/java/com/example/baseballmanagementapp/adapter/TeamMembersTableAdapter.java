@@ -32,17 +32,17 @@ public class TeamMembersTableAdapter extends AbstractTableAdapter<ColumnHeader, 
 
     @Override
     public int getColumnHeaderItemViewType(int position) {
-        return 0;
+        return 1;
     }
 
     @Override
     public int getRowHeaderItemViewType(int position) {
-        return 0;
+        return 1;
     }
 
     @Override
     public int getCellItemViewType(int position) {
-        return 0;
+        return 1;
     }
 
     @NonNull
@@ -68,7 +68,20 @@ public class TeamMembersTableAdapter extends AbstractTableAdapter<ColumnHeader, 
         else {
             viewHolder.cell_textview.setText("Unknown");
         }
-        viewHolder.cell_container.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        switch (columnPosition) {
+            case 0:
+                viewHolder.cell_container.getLayoutParams().width = 300;
+                break;
+            case 1:
+                viewHolder.cell_container.getLayoutParams().width = 500;
+                break;
+            case 2:
+            case 4:
+            case 3:
+                viewHolder.cell_container.getLayoutParams().width = 250;
+                break;
+        }
+
         viewHolder.cell_textview.requestLayout();
     }
 
@@ -95,7 +108,20 @@ public class TeamMembersTableAdapter extends AbstractTableAdapter<ColumnHeader, 
         // Then you should consider the below lines. Otherwise, you can ignore them.
 
         // It is necessary to remeasure itself.
-        columnHeaderViewHolder.column_header_container.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        switch (columnPosition) {
+            case 0:
+                columnHeaderViewHolder.column_header_container.getLayoutParams().width = 300;
+                break;
+            case 1:
+                columnHeaderViewHolder.column_header_container.getLayoutParams().width = 500;
+                break;
+            case 2:
+            case 4:
+            case 3:
+                columnHeaderViewHolder.column_header_container.getLayoutParams().width = 250;
+                break;
+        }
+
         columnHeaderViewHolder.cell_textview.requestLayout();
     }
 
@@ -150,8 +176,8 @@ public class TeamMembersTableAdapter extends AbstractTableAdapter<ColumnHeader, 
 
         public MyColumnHeaderViewHolder(View itemView) {
             super(itemView);
-            column_header_container = itemView.findViewById(R.id.column_header_container);
-            cell_textview = itemView.findViewById(R.id.column_header_textView);
+            this.column_header_container = itemView.findViewById(R.id.column_header_container);
+            this.cell_textview = itemView.findViewById(R.id.column_header_textView);
         }
     }
 }

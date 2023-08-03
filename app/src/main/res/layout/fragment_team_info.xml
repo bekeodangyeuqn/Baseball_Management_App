@@ -24,38 +24,31 @@
         android:textColor="@color/LightGreen"
         android:text="First name" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/teamCityTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:textSize="18sp"
+        android:textColor="@color/LightGreen"
+        android:text="City: City team" />
 
-        <TextView
-            android:id="@+id/teamCityTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/LightGreen"
-            android:text="City: City team" />
+    <TextView
+        android:id="@+id/teamProvinceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textSize="18sp"
+        android:textColor="@color/LightGreen"
+        android:text="Province: Province team" />
 
-        <TextView
-            android:id="@+id/teamProvinceTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textSize="18sp"
-            android:textColor="@color/LightGreen"
-            android:text="Province: Province team" />
-
-        <TextView
-            android:id="@+id/teamCountryTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textSize="18sp"
-            android:textColor="@color/LightGreen"
-            android:text="Province: Country team" />
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/teamCountryTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textSize="18sp"
+        android:textColor="@color/LightGreen"
+        android:text="Province: Country team" />
     <TextView
         android:id="@+id/teamYearTextView"
         android:layout_width="wrap_content"
